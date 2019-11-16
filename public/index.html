@@ -70,7 +70,12 @@
             return false;
         });
 
+        socket.on('connect', () => {
+            socket.emit('message', 'user connected');
+        })
+
         socket.on('message', (msg) => {
+            // to emit to everybody
             $('#messages').append($('<li>').text(msg));
         })
     </script>
