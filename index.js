@@ -11,11 +11,19 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html')
 })
 
+app.get('/javascript', (req, res) => {
+  res.sendFile(__dirname + '/public/javascript.html')
+})
+
 // tech namespace
 const tech = io.of('/tech')
 
 tech.on('connection', socket => {
-  console.log('user connected')
+  socket.on('join', data => {
+    socket.join(data.room)
+    tech.in(data.room)
+  })
+
   socket.on('message', msg => {
     console.log(`message: ${msg}`)
     tech.emit('message', msg)
